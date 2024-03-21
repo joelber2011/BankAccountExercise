@@ -1,15 +1,15 @@
-﻿namespace BankAccountExercise.Entities
+﻿using System.Globalization;
+
+namespace BankAccountExercise.Entities
 {
     public class Account
     {
         public int Number { get; protected set; }
         public string Holder { get; protected set; } = null!;
-        public double Balance { get; protected set; }
+        public double Balance { get; protected set; } = 0!;
 
-        public Account()
-        {
-            
-        }
+        //Construtor padrão
+        public Account() { }
 
         public Account(int number, string holder, double balance)
         {
@@ -22,24 +22,25 @@
         {
             if (amount <= Balance)
             {
-                Balance -= amount;                
+                Balance -= amount;
             }
             else
             {
-                Console.WriteLine($"Saldo atual R$: {Balance}, insuficiente para o saque.");
+                Console.WriteLine($"SALDO INSUFICIENTE PARA SAQUE!");
             }
         }
 
         public void Deposit(double amount)
         {
-            Balance += amount;            
+            Balance += amount;
+            Console.WriteLine($"DEPÓSITO REALIZADO COM SUCESSO!");
         }
 
         public override string ToString()
         {
-            return "Número da conta: " + Number + "\n" +
-                "Titular: " + Holder + "\n" +
-                "Saldo da conta: R$ " + Balance;
+            return "NÚMERO DA CONTA: " + Number + "\n" +
+                "TITULAR: " + Holder + "\n" +
+                "SALDO DA CONTA: R$ " + Balance.ToString("F2", CultureInfo.InvariantCulture);
         }
 
     }

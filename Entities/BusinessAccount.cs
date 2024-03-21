@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,10 +11,8 @@ namespace BankAccountExercise.Entities
     {
         public double LoanLimit { get; protected set; }
 
-        public BusinessAccount()
-        {
-            
-        }
+        //Construtor padrão
+        public BusinessAccount() { }
 
         public BusinessAccount(int number, string holder, double balance, double loanLimit) : base(number, holder, balance)
         {
@@ -22,23 +21,20 @@ namespace BankAccountExercise.Entities
 
         public void Loan(double amount)
         {
+            
             if (amount <= LoanLimit)
             {
                 Balance += amount;
-                Console.WriteLine($"Empréstimo realizado com sucesso!\nSaldo atual: R$ {Balance}");
+                Console.WriteLine($"EMPRÉSTIMO REALIZADO COM SUCESSO!");
+                LoanLimit -= amount;
             }
             else
             {
-                Console.WriteLine($"Operação cancelada. Empréstimo excedeu o limite.\nSaldo atual: R$ {Balance}");
+                Console.WriteLine($"OPERAÇÃO CANCELADA. EMPRÉSTIMO EXCEDEU O LIMITE.\nSALDO ATUAL: R$ {Balance.ToString("F2", CultureInfo.InvariantCulture)}");
             }
         }
 
-        public override string ToString()
-        {
-            return "Número da conta: " + Number +
-                "Titular: " + Holder +
-                "Saldo da conta: R$ " + Balance +
-                "Limite da conta: R$ " + LoanLimit;
-        }
+        public override string ToString() => base.ToString() + "\n" +
+                "LIMITE DE EMPRÉSTIMO: R$ " + LoanLimit.ToString("F2", CultureInfo.InvariantCulture);
     }
 }

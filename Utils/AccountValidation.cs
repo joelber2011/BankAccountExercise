@@ -7,115 +7,92 @@ using System.Threading.Tasks;
 
 namespace BankAccountExercise.Utils
 {
-    public class AccountValidation : Account
+    public static class AccountValidation
     {
+        private static readonly int MaxAttemps = 3;
 
-        public static Account CreatePersonalAccount()
+        public static Account ValidateAccountType(int num)
         {
-            return new Account(2011, "Joelber", 0.0);
-        }
 
-        public static BusinessAccount CreateBusinessAccount()
-        {
-            return new BusinessAccount(2547, "Minha empresa", 0.0, 1000.00);
-        }
-
-        public static void ValidationTpConta(int num)
-        {
-            int tentativas = 3;
-
-            switch (num)
+            for (int i = 0; i < MaxAttemps; i++)
             {
-                case 1:
-                    Entities.Account account = new(2011, "Joelber", 0.0);
-                    Console.WriteLine($"Seguem seus dados: \n{account}");
-                    break;
+                switch (num)
+                {
+                    case 1:
 
-                case 2:
-                    Entities.BusinessAccount businessAccount = new(2547, "Minha empresa", 0.0, 1000.0);
-                    Console.WriteLine($"Seguem seus dados corporativos: \n{businessAccount}");
-                    break;
+                        return new Account();
 
-                default:
+                    case 2:
 
+                        return new BusinessAccount();
 
-                    for (int i = 1; i < tentativas; i++)
-                    {
-                        Console.WriteLine("Opção inválida.");
-                        Console.WriteLine($"Tentativas restantes: {tentativas - i}");
-                        Console.WriteLine("Por favor, insira uma opção válida:");
+                    default:
+
+                        Console.WriteLine("OPÇÃO INVÁLIDA.");
+                        Console.WriteLine($"TENTATIVAS RESTANTES: {MaxAttemps - i}");
+                        Console.WriteLine("POR FAVOR, INSIRA UMA OPÇÃO VÁLIDA:");
                         num = Convert.ToInt16(Console.ReadLine());
 
-                        if (num == 1 || num == 2)
-                        {
-                            break;
-                        }
-                    }
-                    if (num != 1 && num != 2)
-                    {
+                        break;
 
-                        Console.WriteLine("Número máximo de tentativas alcançado. Encerrando...");
-                    }
-                    break;
-
+                }
             }
+            Console.WriteLine("NÚMERO MÁXIMO DE TENTATIVAS ALCANÇADO. ENCERRANDO...");
+            Environment.Exit(0);
+            return null; // Necessário para evitar erro de compilação, mas não será alcançado
 
         }
 
         public static void ValidateOperation(int selection, Account account)
         {
-            int tentativas = 3;
-
-            switch (selection)
+            for (int i = 0; i < MaxAttemps; i++)
             {
-                case 1:
-                    Console.Write("Digite o valor do saque: ");
-                    double withDrawAmount = Convert.ToDouble(Console.ReadLine());
-                    account.WithDraw(withDrawAmount);
-                    break;
+                switch (selection)
+                {
+                    case 1:
+                        Console.Write("DIGITE O VALOR DO SAQUE: ");
+                        double withDrawAmount = Convert.ToDouble(Console.ReadLine());
+                        account.WithDraw(withDrawAmount);
+                        return;
 
-                case 2:
-                    Console.Write("Digite o valor do depósito: R$ ");
-                    double depositAmount = Convert.ToDouble(Console.ReadLine());
-                    account.Deposit(depositAmount);
-                    break;
+                    case 2:
+                        Console.Write("DIGITE O VALOR DO DEPÓSITO: R$ ");
+                        double depositAmount = Convert.ToDouble(Console.ReadLine());
+                        account.Deposit(depositAmount);
+                        return;
 
-                case 3:
-                    if (account is BusinessAccount businessAccount)
-                    {
-                        Console.WriteLine("Digite o valor do empréstimo: R$ ");
-                        double loanAmount = Convert.ToDouble(Console.ReadLine());
-                        businessAccount.Loan(loanAmount);
-                    }
-                    else
-                    {
-                        Console.WriteLine("Operação de empréstimo indisponível para sua conta.");
-                    }
-                    break;
+                    case 3:
+                        if (account is BusinessAccount businessAccount)
+                        {
+                            Console.Write("DIGITE O VALOR DO EMPRÉSTIMO: R$ ");
+                            double loanAmount = Convert.ToDouble(Console.ReadLine());
+                            businessAccount.Loan(loanAmount);
+                            return;
+                        }
+                        else
+                        {
+                            Console.WriteLine("OPERAÇÃO DE EMPRÉSTIMO INDISPONÍVEL PARA SUA CONTA.");
+                            return;
+                        }                        
 
-                default:
+                    default:
 
-
-                    for (int i = 1; i < tentativas; i++)
-                    {
-                        Console.WriteLine("Opção inválida.");
-                        Console.WriteLine($"Tentativas restantes: {tentativas - i}");
-                        Console.WriteLine("Por favor, insira uma opção válida:");
+                        Console.WriteLine("OPÇÃO INVÁLIDA.");
+                        Console.WriteLine($"TENTATIVAS RESTANTES: {MaxAttemps - i}");
+                        Console.WriteLine("POR FAVOR, INSIRA UMA OPÇÃO VÁLIDA:");
                         selection = Convert.ToInt16(Console.ReadLine());
 
-                        if (selection == 1 || selection == 2 || selection == 3)
-                        {
-                            break;
-                        }
-                    }
-                    if (selection != 1 && selection != 2 && selection != 3)
-                    {
-
-                        Console.WriteLine("Número máximo de tentativas alcançado. Encerrando...");
-                    }
-                    break;
+                        break;
+    
+                }
 
             }
+
+            Console.WriteLine("NÚMERO MÁXIMO DE TENTATIVAS ALCANÇADO. ENCERRANDO...");
+            Environment.Exit(0);
         }
+
     }
+
 }
+
